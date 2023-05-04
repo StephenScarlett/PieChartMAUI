@@ -1,0 +1,86 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:telerik="http://schemas.telerik.com/2022/xaml/maui"
+             x:Class="PieChartMAUI.MainPage"
+             xmlns:local="clr-namespace:PieChartMAUI">
+
+    <ContentPage.BindingContext>
+        <local:ViewModel />
+    </ContentPage.BindingContext>
+
+
+    <Grid RowDefinitions="100*, 100*, 100*" Padding="10" ColumnDefinitions="100*, 100*, 100*">
+
+        <!-- Pie Chart -->
+        <telerik:RadPieChart x:Name="piechart" Grid.Row="0" Grid.ColumnSpan="2">
+
+            <telerik:RadPieChart.Series>
+                <telerik:PieSeries ShowLabels="True"
+                         RadiusFactor="0.8"
+                         ValueBinding="Value"
+                         ItemsSource="{Binding Data}"
+                         DisplayName="Name"
+                         LegendTitleBinding="Name"  />
+            </telerik:RadPieChart.Series>
+        </telerik:RadPieChart>
+
+        <!-- Pie Chart Legend -->
+        <telerik:RadScrollView Grid.Row="0" Grid.Column="3">
+            <telerik:RadLegend
+                            LegendItemFontColor="DarkGreen"
+                            LegendProvider="{x:Reference Name=piechart}"/>
+        </telerik:RadScrollView>
+
+        <!-- Data Grid -->
+        <telerik:RadDataGrid Grid.Row="1" Grid.ColumnSpan="2" x:Name="dataGrid" ItemsSource="{Binding Data}" AutoGenerateColumns="False">
+            <telerik:RadDataGrid.BindingContext>
+                <local:ViewModel/>
+            </telerik:RadDataGrid.BindingContext>
+            
+            <telerik:RadDataGrid.Columns>
+                <telerik:DataGridTextColumn PropertyName="Name" HeaderText="NAME"/>
+                <telerik:DataGridNumericalColumn PropertyName="Value" HeaderText="VALUE"/>
+            </telerik:RadDataGrid.Columns>
+        </telerik:RadDataGrid>
+
+
+        <!-- Buttons and Entry Fields -->
+        <telerik:RadWrapLayout Grid.Row="1" Grid.Column="3">
+            <telerik:RadScrollView>
+                <VerticalStackLayout>
+
+                    <Label Text="Primary Key"/>
+                    <telerik:RadEntry x:Name="entryName"/>
+                    <Label Text="Value"/>
+                    <telerik:RadEntry x:Name="entryValue"/>
+
+                    <telerik:RadButton x:Name="addbtn" Text="Add" Clicked="AddFunc" Scale="0.8" />
+                    <telerik:RadButton x:Name="upbtn" Text="Update" Clicked="UpdateFunc" Scale="0.8"/>
+                    <telerik:RadButton x:Name="dltbtn" Text="Dlt" Clicked="DltFunc" Scale="0.8"/>
+                    <telerik:RadButton x:Name="getbtn" Text="GET" Clicked="GetFunc" Scale="0.8"/>
+                </VerticalStackLayout>
+            </telerik:RadScrollView>
+
+        </telerik:RadWrapLayout>
+
+
+        <!-- Cartesian Chart -->
+        <telerik:RadCartesianChart Grid.Row="2" Grid.ColumnSpan="3">
+            <telerik:RadCartesianChart.HorizontalAxis>
+                <telerik:CategoricalAxis LabelFitMode="MultiLine" />
+            </telerik:RadCartesianChart.HorizontalAxis>
+            <telerik:RadCartesianChart.VerticalAxis>
+                <telerik:NumericalAxis Minimum="0" />
+            </telerik:RadCartesianChart.VerticalAxis>
+            <telerik:RadCartesianChart.Series>
+                <telerik:BarSeries ValueBinding="Value"
+                              CategoryBinding="Name"
+                              ItemsSource="{Binding Data}" />
+            </telerik:RadCartesianChart.Series>
+        </telerik:RadCartesianChart>
+
+
+    </Grid>
+
+</ContentPage>
